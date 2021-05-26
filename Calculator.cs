@@ -20,11 +20,31 @@ public class Program
 
             string ns = File.ReadAllText(args[0]);
             string o = args[1];
+
+            operationType(o);
+            calculate(ns);
+        }
+
+        public void printOperation(int value) {
+            Console.WriteLine($"[{DateTime.Now.ToString("hhmmss:ffffff")}][log] parsed value = {value}");
+        }
+
+        public string operationType(string t) {
+            string type = t == "+" ? "addition" : t == "*" ? "multiplication" : "unknown";
+            Console.WriteLine($"[{DateTime.Now.ToString("hhmmss:ffffff")}][log] applying operation {type}");
+            return t;
+        }
+
+        public void printTotal(int total) {
+            Console.WriteLine("--------------");
+            Console.WriteLine("Total = " + total.ToString());
+            Console.WriteLine($"[{DateTime.Now.ToString("hhmmss:ffffff")}][log] end of program");
+        }
+
+        public void calculate(string ns) {
             int t = 0;
             int ln = 0;
 
-            Console.WriteLine($"[{DateTime.Now.ToString("hhmmss:ffffff")}][log] applying operation {operationType(o)}");
-            
             foreach (string s in ns.Split(Environment.NewLine))
             {
                 int val = int.Parse(s);
@@ -34,30 +54,12 @@ public class Program
                 if (ln == 0) Console.WriteLine();
                 else Console.WriteLine($" (= {t.ToString()})");
 
-                if (operationType == "addition") t+= val;
-                else if (operationType == "multiplication") t*= val;
+                if (operationType() == "addition") t += val;
+                else if (operationType() == "multiplication") t *= val;
 
                 ln++;
                 Console.WriteLine($"[{DateTime.Now.ToString("hhmmss:ffffff")}][log] accumulation : {t} on line {ln}");
             }
             printTotal(t);
-        }
-
-        public void printOperation(int value) {
-            Console.WriteLine($"[{DateTime.Now.ToString("hhmmss:ffffff")}][log] parsed value = {value}");
-        }
-
-        public string operationType(string type) {
-            return type == "+" ? "addition" : type == "*" ? "multiplication" : "unknown";
-        }
-
-        public void printTotal(int total) {
-            Console.WriteLine("--------------");
-            Console.WriteLine("Total = " + total.ToString());
-            Console.WriteLine($"[{DateTime.Now.ToString("hhmmss:ffffff")}][log] end of program");
-        }
-
-        public void calculate() {
-
         }
     }
